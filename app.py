@@ -33,7 +33,7 @@ from users import USERNAME_PASSWORD_PAIRS
 from users import PISCOPE_BOT_TOKEN
 
 import os
-#app = dash.Dash(__name__, server=server, url_base_pathname='/dashboard/', update_title=None)
+
 base_path = os.getenv('BASE_PATH', '/device-controllers/')
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP], url_base_pathname=base_path)
 app.title = 'Braingeneers Control Panel'
