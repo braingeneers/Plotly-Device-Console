@@ -5,14 +5,12 @@ import braingeneers.iot.shadows as shadows
 from github import Github
 import datetime
 import time
-# from Experiment_Metadata_SQL import *
 from users import PISCOPE_BOT_TOKEN
 from dash.dependencies import Input, Output, State
 import json
 from dash import html
 import pytz
 import re
-from Experiment_Metadata_SQL import *
 from dotenv import load_dotenv
 import os
 

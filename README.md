@@ -6,6 +6,5 @@ It is intended to function as a connectivity test for the braingeneers shadow da
 
 It can also serve as a template for more sophisticated device control applications.
 
-TODO: currently the application lists all devices and shows their shadows
+TODO:
  - filter by device type
- - add message input and send button

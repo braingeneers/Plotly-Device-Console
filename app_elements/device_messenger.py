@@ -20,7 +20,7 @@ import re
 import sqlite3
         
 DEVICE_MESSENGER = dcc.Tab(label='Device-Messenger', children=[
-                    html.Div(id='device-div-2', className='six columns pretty_container', children=[
+                    html.Div(id='device-div-1', className='five columns pretty_container', children=[
                             dbc.Button(id='show-device-button', children='Refresh', color="primary", n_clicks=0),
                             html.H4(id='device-list-header', children='Devices:'),
                             dcc.Dropdown(
@@ -31,9 +31,9 @@ DEVICE_MESSENGER = dcc.Tab(label='Device-Messenger', children=[
                                 [
                                     dbc.Checklist(
                                         options=[
-                                            {"label": "show only active experiments", "value": True},
+                                            {"label": "placeholder-switch for future filters", "value": True},
                                         ],
-                                        value=[True],
+                                        value=[False],
                                         id="show-only-1",
                                         switch=True,
                                     ),
@@ -59,7 +59,23 @@ DEVICE_MESSENGER = dcc.Tab(label='Device-Messenger', children=[
                                 type="dot",
                             ),
                     ]),
-
+                    html.Div(id='device-div-2', className='five columns pretty_container', children=[
+                        html.H4(id='messenger-header', children='Send Message:'),
+                        dcc.Input(id='message-topic-input', type='text', placeholder='Enter Topic'),
+                        html.Br(),
+                        #dash block text input for experiment notes
+                        dcc.Textarea(id='message-input', placeholder='Enter message'),
+                        html.Br(),
+                        #submit button for experiment name
+                        dbc.Button(id='send-message-button', children='Submit', color="primary", n_clicks=0),
+                        dbc.Alert(
+                            "Message Sent",
+                            id="message-send-alert-fade",
+                            dismissable=True,
+                            is_open=False,
+                            duration=4000,
+                        ),                       
+                    ]),
                 ])
 
 
@@ -100,3 +116,21 @@ def get_callbacks(app):
     def populate_device_info(device_id, clicks):
         device = db_interactor.get_device(device_id)
         return json.dumps(device.to_json(), indent=4)
+    
+    """
+     def send_message()
+
+        This function is called when the user clicks the "Start Experiment" button. It takes the parameters from the form and sends them to the device.
+    """
+    @app.callback(
+        Output('message-send-alert-fade', 'is_open'),
+        Output('send-message-button', 'n_clicks'),
+        Input('send-message-button', 'n_clicks'),
+        State('message-topic-input', 'value'),
+        State('message-input', 'value'),
+    )
+    def send_message(n_clicks, topic, message):
+        if n_clicks and topic and message:
+            mb.publish_message(topic,message)
+            return True, 0
+        return False, 0
